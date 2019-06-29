@@ -5,11 +5,11 @@ import sys
 import glob
 from tqdm import tqdm
 
-api_key='ないしょ'
-max_concepts=100
-min_value=0.5
-image_list = ['images.jpg']
-ans_list = ['KiraKira']
+api_key='key'
+max_concepts=200
+min_value=0.0
+image_list = ['images.jpg', 'images2.jpg']
+ans_list = ['KiraKira', 'KiraKira']
 effect_tag = ['KiraKira', 'Heart', 'Notes', 'Fire', 'Central line', 'Rain',
             'Thunder', 'Lens flare', 'Comicalize', 'Blur', 'Change contrast',
              'Zoom in', 'Zoom out', ] #13
