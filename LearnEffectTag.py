@@ -17,7 +17,7 @@ df_list = []
 image_list = glob.glob('img/*')
 
 for i in range(len(csv_name_list)):
-    df = pd.read_csv(csv_name_list[0], names=('tag',), index_col=0)
+    df = pd.read_csv(csv_name_list[0], index_col=0)
     df_list.append(df)
 
 
@@ -42,7 +42,7 @@ for i in range(len(image_list)):
     image_path = image_list[i]
     for j in range(len(df_list)):
         df = df_list[i]
-        tag = dfdf.at[image_path, 'tag']
+        tag = dfdf.at[image_path, 'Effect']
     c = collections.Counter(tag)
     tag_list = []
     for j in range(len(c)):
