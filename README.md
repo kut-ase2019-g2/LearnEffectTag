@@ -6,7 +6,7 @@
 
 ### LearnEffectTag.py
 
-画像とcsv(エフェクトタグ)を関連付けてclarifaiにアップロードさせ学習を開始させるプログラム
+画像とSetTag.csv(エフェクトタグ)を関連付けてclarifaiにアップロードさせ学習を開始させるプログラム
 
 ### mymodel.py
 
@@ -18,14 +18,33 @@
 
 ### CheckData.py
 
-複数人(今回は5人)の結果ファイルcsvを結合するプログラム
+EffectTagData(フォルダ)内の結果csvを結合するプログラム
 
 ### EffectDataMaker.py
 
-CheckData.pyで生成したcsvファイルを元に実行
+CheckData.pyで生成したresult.csvファイルを元に実行
 
 LearnEffectTag.pyで使用するcsvを生成するプログラム
 
 ### EffectCount.py
 
 EffectDataMakerで生成したcsvファイルより、教師データの詳細を確認するプログラム
+
+## Data
+
+### EffectTagData(フォルダ)
+
+5人による画像に対してエフェクトタグを選別したデータ
+
+### result.csv
+
+CheckData.pyで生成した5人の結果(EffectTagData)を統合したデータ
+
+### SetTag.csv
+
+result.csvを元に、EffectDataMaker.pyで生成したcsvファイル
+
+2人以上選択されたタグを画像に関連づけるように設定されている
+
+
+
