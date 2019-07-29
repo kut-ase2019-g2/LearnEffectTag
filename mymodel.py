@@ -1,47 +1,32 @@
-from clarifai.rest import ClarifaiApp
-import pandas as pd
-import os
-import sys
+import csv, random
 import glob
-from tqdm import tqdm
+import sys
+from clarifai.rest import ClarifaiApp
 
-api_key='key'
+# 乱数シード値
+random.seed(1)
+
+api_key='ないしょ'
+effect_tag = ['KiraKira', 'Change_contrast', 'Lens_flare', 'Rain', 'Central_line',
+    'Zoom_in', 'Heart', 'Notes', 'Zoom_out']
 max_concepts=200
 min_value=0.0
-image_list = ['images.jpg', 'images2.jpg']
-ans_list = ['KiraKira', 'KiraKira']
-effect_tag = ['KiraKira', 'Heart', 'Notes', 'Fire', 'Central line', 'Rain',
-            'Thunder', 'Lens flare', 'Comicalize', 'Blur', 'Change contrast',
-             'Zoom in', 'Zoom out', ] #13
-csv_file = 'effect_weight.csv'
-zeros = [[0 for i in range(len(effect_tag))]]
+all_image_list = glob.glob('image/*.*')
+image_list = random.sample(all_image_list, 10)
 
-# APIsetup
-app=ClarifaiApp(api_key=api_key)
-# model = app.public_models.general_model
-model = app.models.get('learn_test')
+# fileの書き出し setup
+f_AI = open('tag_data_AI.csv', 'w')
+w_AI = csv.writer(f_AI, lineterminator='\n')
+f_Rn = open('tag_data_Random.csv', 'w')
+w_Rn = csv.writer(f_Rn, lineterminator='\n')
 
-# # READ csv
-# if os.path.exists(csv_file):
-#     df = pd.read_csv(csv_file, index_col=0)
-# else:
-#     df = pd.DataFrame(data=zeros,index=['COUNT'],columns=effect_tag)
+# API setup
+app = ClarifaiApp(api_key=api_key)
+model = app.models.get('AutoEffectTagSet')
 
-# API do
-# pbar = tqdm(total=int(len(image_list)), desc='Learn process')
+# API DO
 for i in range(len(image_list)):
     response = model.predict_by_filename(image_list[i], max_concepts=max_concepts)
     rList = response['outputs'][0]['data']['concepts']
-    for j in range(len(rList)):
-        concept_name = str(rList[j]['name'])
-        concept_weight = rList[j]['value']
-        print(concept_name + ': ' +str(concept_weight))
-        # if concept_name not in df.index.values:
-    #         df.loc[concept_name] = 0
-    #     df.loc[concept_name, ans_list[i]] = df.loc[concept_name, ans_list[i]] + concept_weight
-    # df.loc['COUNT', ans_list[i]] = df.loc['COUNT', ans_list[i]] + 1
-#     pbar.update(1)  # プロセスバーを進行
-# pbar.close()  # プロセスバーの終了
-
-# Save
-# df.to_csv(csv_file, sep=",")
+    w_AI.writerow([str(image_list[i])] + [str(rList[0]['name'])])
+    w_Rn.writerow([str(image_list[i])] + [random.sample(effect_tag, 1)[0]])
